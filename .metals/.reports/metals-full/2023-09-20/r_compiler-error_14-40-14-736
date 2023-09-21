@@ -1,0 +1,63 @@
+java.lang.UnsupportedOperationException: Position.start on NoPosition
+occurred in the presentation compiler.
+
+action parameters:
+uri: file://<WORKSPACE>/app/models/domain/Profiles.scala
+text:
+package models.domain
+
+import java.util.UUID
+
+case class Profile(
+    userId: UUID,
+    firstName: String,
+    middleName: Option[String],
+    lastName: String,
+    birthdate: String,
+    livingCountry: String,
+    firstLanguage: String,
+    secondLanguage: String
+)
+
+object Profile {
+    val tupled = (apply: (UUID, String, Option[String], String, String, String, String, String) => User).tupled
+    def apply(userId: UUID, firstName: String, middleName: Option[String], lastName: String, birthdate: String, livingCountry: String, firstLanguage: String, secondLanguage: String): User = apply(userId, for, password, email)
+}
+
+
+error stacktrace:
+scala.reflect.internal.util.Position.fail(Position.scala:24)
+	scala.reflect.internal.util.UndefinedPosition.start(Position.scala:101)
+	scala.reflect.internal.util.UndefinedPosition.start(Position.scala:97)
+	scala.meta.internal.pc.PcCollector.$anonfun$traverseSought$4(PcCollector.scala:351)
+	scala.collection.immutable.List.flatMap(List.scala:293)
+	scala.meta.internal.pc.PcCollector.traverseWithParent$1(PcCollector.scala:350)
+	scala.meta.internal.pc.PcCollector.$anonfun$traverseSought$1(PcCollector.scala:288)
+	scala.meta.internal.pc.PcCollector.$anonfun$traverseSought$3(PcCollector.scala:342)
+	scala.collection.LinearSeqOps.foldLeft(LinearSeq.scala:183)
+	scala.collection.LinearSeqOps.foldLeft$(LinearSeq.scala:179)
+	scala.collection.immutable.List.foldLeft(List.scala:79)
+	scala.meta.internal.pc.PcCollector.traverseWithParent$1(PcCollector.scala:342)
+	scala.meta.internal.pc.PcCollector.$anonfun$traverseSought$1(PcCollector.scala:288)
+	scala.meta.internal.pc.PcCollector.$anonfun$traverseSought$19(PcCollector.scala:469)
+	scala.collection.LinearSeqOps.foldLeft(LinearSeq.scala:183)
+	scala.collection.LinearSeqOps.foldLeft$(LinearSeq.scala:179)
+	scala.collection.immutable.List.foldLeft(List.scala:79)
+	scala.meta.internal.pc.PcCollector.traverseWithParent$1(PcCollector.scala:469)
+	scala.meta.internal.pc.PcCollector.$anonfun$traverseSought$1(PcCollector.scala:288)
+	scala.meta.internal.pc.PcCollector.$anonfun$traverseSought$3(PcCollector.scala:342)
+	scala.collection.LinearSeqOps.foldLeft(LinearSeq.scala:183)
+	scala.collection.LinearSeqOps.foldLeft$(LinearSeq.scala:179)
+	scala.collection.immutable.List.foldLeft(List.scala:79)
+	scala.meta.internal.pc.PcCollector.traverseWithParent$1(PcCollector.scala:342)
+	scala.meta.internal.pc.PcCollector.$anonfun$traverseSought$1(PcCollector.scala:288)
+	scala.meta.internal.pc.PcCollector.$anonfun$traverseSought$3(PcCollector.scala:342)
+	scala.collection.LinearSeqOps.foldLeft(LinearSeq.scala:183)
+	scala.collection.LinearSeqOps.foldLeft$(LinearSeq.scala:179)
+	scala.collection.immutable.List.foldLeft(List.scala:79)
+	scala.meta.internal.pc.PcCollector.traverseWithParent$1(PcCollector.scala:342)
+	scala.meta.internal.pc.PcCollector.traverseSought(PcCollector.scala:472)
+	scala.meta.internal.pc.PcCollector.resultAllOccurences(PcCollector.scala:276)
+	scala.meta.internal.pc.PcCollector.result(PcCollector.scala:208)
+	scala.meta.internal.pc.PcSemanticTokensProvider.provide(PcSemanticTokensProvider.scala:71)
+	scala.meta.internal.pc.ScalaPresentationCompiler.$anonfun$semanticTokens$1(ScalaPresentationCompiler.scala:151)

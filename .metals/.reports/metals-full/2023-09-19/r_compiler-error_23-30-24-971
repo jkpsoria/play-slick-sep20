@@ -1,0 +1,53 @@
+scala.reflect.internal.Types$TypeError: illegal cyclic reference involving trait API
+occurred in the presentation compiler.
+
+action parameters:
+offset: 1486
+uri: file:///C:/Users/Inspiron/Documents/crsestrada-homework-09192023/app/models/repo/ProfileRepo.scala
+text:
+package models.repo
+
+import javax.inject._
+import play.api.db.slick.DatabaseConfigProvider
+import play.api.db.slick.HasDatabaseConfigProvider
+import slick.jdbc.JdbcProfile
+import scala.concurrent.{ExecutionContext, Future}
+import models.domain.Profile
+import java.util.UUID
+import models.repo.UserRepo
+
+trait ProfileRepository {
+  def addProfile(profile: Profile): Future[Unit]
+  def updateProfile(id: UUID, livingCountry: String, firstLanguage: String, secondLanguage: String): Future[Int]
+}
+
+final class ProfileRepo @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit ex: ExecutionContext) extends HasDatabaseConfigProvider[JdbcProfile]
+    with ProfileRepository {
+    import profile.api._
+    protected class Profiles (tag: Tag) extends Table[Profile](tag, "PROFILES") {
+        def userId = column[UUID]("USER_ID", O.PrimaryKey)
+        def firstName = column[String]("FIRST_NAME")
+        def middleName = column[Option[String]]("MIDDLE_NAME")
+        def lastName = column[String]("LAST_NAME")
+        def birthdate = column[String]("BIRTH_DATE")
+        def livingCountry = column[String]("LIVING_COUNTRY")
+        def firstLanguage = column[String]("FIRST_LANGUAGE")
+        def secondLanguage = column[String]("SECOND_LANGUAGE")
+        def * = (userId, firstName, middleName, lastName, birthdate, livingCountry, firstLanguage, secondLanguage).mapTo[Profile]
+        def userId_fk = foreignKey("user_id_fk", userId, UserRepo@@.Users)(_.id, onDelete = ForeignKeyAction.Cascade)
+
+    }
+
+    val profiles = TableQuery[Profiles]
+
+    db.run(profiles.schema.createIfNotExists)
+
+    override def addProfile(profile: Profile): Future[Unit] = db.run(profiles += profile).map(_ => ())
+    override def updateUser(id: UUID, livingCountry: String, firstLanguage: String, secondLanguage: String): Future[Int] = db.run(profiles.filter(_.userId === id).map(x => (x.livingCountry, x.firstLanguage, x.secondLanguage)).update((livingCountry, firstLanguage, secondLanguage)))
+
+}
+
+
+
+error stacktrace:
+

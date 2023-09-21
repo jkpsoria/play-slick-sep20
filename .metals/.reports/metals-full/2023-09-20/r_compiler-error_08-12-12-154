@@ -1,0 +1,98 @@
+java.lang.NullPointerException
+occurred in the presentation compiler.
+
+action parameters:
+offset: 639
+uri: file://<WORKSPACE>/app/models/repo/ProfileRepo.scala
+text:
+package models.repo
+
+import javax.inject._
+import play.api.db.slick.DatabaseConfigProvider
+import play.api.db.slick.HasDatabaseConfigProvider
+import slick.jdbc.JdbcProfile
+import scala.concurrent.{ExecutionContext, Future}
+import models.domain.User
+import models.domain.Profile
+import java.util.UUID
+import models.repo.UserRepo
+
+trait ProfileRepository {
+  def addProfile(profile: Profile): Future[Unit]
+  def updateProfile(id: UUID, livingCountry: String, firstLanguage: String, secondLanguage: String): Future[Int]
+}
+
+@Singleton
+final class ProfileRepo @Inject()(protected val dbConfigProvider: DatabaseConfigProvider, @@userRepo: UserRepo)(implicit ex: ExecutionContext) extends HasDatabaseConfigProvider[JdbcProfile]
+    with ProfileRepository {
+    import profile.api._
+    protected class Profiles (tag: Tag) extends Table[Profile](tag, "PROFILES") {
+        def userId = column[UUID]("USER_ID", O.PrimaryKey)
+        def firstName = column[String]("FIRST_NAME")
+        def middleName = column[Option[String]]("MIDDLE_NAME")
+        def lastName = column[String]("LAST_NAME")
+        def birthdate = column[String]("BIRTH_DATE")
+        def livingCountry = column[String]("LIVING_COUNTRY")
+        def firstLanguage = column[String]("FIRST_LANGUAGE")
+        def secondLanguage = column[String]("SECOND_LANGUAGE")
+        def userId_fk = foreignKey("user_id_fk", userId, TableQuery[userRepo.Users])(_.id, onDelete = ForeignKeyAction.Cascade)
+        def * = (userId, firstName, middleName, lastName, birthdate, livingCountry, firstLanguage, secondLanguage).mapTo[Profile]
+    }
+
+    val profiles = TableQuery[Profiles]
+
+    db.run(profiles.schema.createIfNotExists)
+
+    override def addProfile(profile: Profile): Future[Unit] = db.run(profiles += profile).map(_ => ())
+    override def updateUser(id: UUID, livingCountry: String, firstLanguage: String, secondLanguage: String): Future[Int] = db.run(profiles.filter(_.userId === id).map(x => (x.livingCountry, x.firstLanguage, x.secondLanguage)).update((livingCountry, firstLanguage, secondLanguage)))
+
+}
+
+
+
+error stacktrace:
+scala.meta.internal.pc.PcCollector.soughtTreeFilter$1(PcCollector.scala:248)
+	scala.meta.internal.pc.PcCollector.$anonfun$resultWithSought$9(PcCollector.scala:266)
+	scala.meta.internal.pc.PcCollector.$anonfun$resultWithSought$9$adapted(PcCollector.scala:266)
+	scala.meta.internal.pc.PcCollector.traverseWithParent$1(PcCollector.scala:348)
+	scala.meta.internal.pc.PcCollector.$anonfun$traverseSought$1(PcCollector.scala:288)
+	scala.meta.internal.pc.PcCollector.$anonfun$traverseSought$10(PcCollector.scala:409)
+	scala.collection.LinearSeqOps.foldLeft(LinearSeq.scala:183)
+	scala.collection.LinearSeqOps.foldLeft$(LinearSeq.scala:179)
+	scala.collection.immutable.List.foldLeft(List.scala:79)
+	scala.meta.internal.pc.PcCollector.traverseWithParent$1(PcCollector.scala:409)
+	scala.meta.internal.pc.PcCollector.$anonfun$traverseSought$1(PcCollector.scala:288)
+	scala.meta.internal.pc.PcCollector.$anonfun$traverseSought$19(PcCollector.scala:469)
+	scala.collection.LinearSeqOps.foldLeft(LinearSeq.scala:183)
+	scala.collection.LinearSeqOps.foldLeft$(LinearSeq.scala:179)
+	scala.collection.immutable.List.foldLeft(List.scala:79)
+	scala.meta.internal.pc.PcCollector.traverseWithParent$1(PcCollector.scala:469)
+	scala.meta.internal.pc.PcCollector.$anonfun$traverseSought$1(PcCollector.scala:288)
+	scala.meta.internal.pc.PcCollector.$anonfun$traverseSought$10(PcCollector.scala:409)
+	scala.collection.LinearSeqOps.foldLeft(LinearSeq.scala:183)
+	scala.collection.LinearSeqOps.foldLeft$(LinearSeq.scala:179)
+	scala.collection.immutable.List.foldLeft(List.scala:79)
+	scala.meta.internal.pc.PcCollector.traverseWithParent$1(PcCollector.scala:409)
+	scala.meta.internal.pc.PcCollector.$anonfun$traverseSought$1(PcCollector.scala:288)
+	scala.meta.internal.pc.PcCollector.$anonfun$traverseSought$19(PcCollector.scala:469)
+	scala.collection.LinearSeqOps.foldLeft(LinearSeq.scala:183)
+	scala.collection.LinearSeqOps.foldLeft$(LinearSeq.scala:179)
+	scala.collection.immutable.List.foldLeft(List.scala:79)
+	scala.meta.internal.pc.PcCollector.traverseWithParent$1(PcCollector.scala:469)
+	scala.meta.internal.pc.PcCollector.$anonfun$traverseSought$1(PcCollector.scala:288)
+	scala.meta.internal.pc.PcCollector.$anonfun$traverseSought$10(PcCollector.scala:409)
+	scala.collection.LinearSeqOps.foldLeft(LinearSeq.scala:183)
+	scala.collection.LinearSeqOps.foldLeft$(LinearSeq.scala:179)
+	scala.collection.immutable.List.foldLeft(List.scala:79)
+	scala.meta.internal.pc.PcCollector.traverseWithParent$1(PcCollector.scala:409)
+	scala.meta.internal.pc.PcCollector.$anonfun$traverseSought$1(PcCollector.scala:288)
+	scala.meta.internal.pc.PcCollector.$anonfun$traverseSought$10(PcCollector.scala:409)
+	scala.collection.LinearSeqOps.foldLeft(LinearSeq.scala:183)
+	scala.collection.LinearSeqOps.foldLeft$(LinearSeq.scala:179)
+	scala.collection.immutable.List.foldLeft(List.scala:79)
+	scala.meta.internal.pc.PcCollector.traverseWithParent$1(PcCollector.scala:409)
+	scala.meta.internal.pc.PcCollector.traverseSought(PcCollector.scala:472)
+	scala.meta.internal.pc.PcCollector.resultWithSought(PcCollector.scala:266)
+	scala.meta.internal.pc.PcCollector.result(PcCollector.scala:207)
+	scala.meta.internal.pc.PcDocumentHighlightProvider.highlights(PcDocumentHighlightProvider.scala:29)
+	scala.meta.internal.pc.ScalaPresentationCompiler.$anonfun$documentHighlight$1(ScalaPresentationCompiler.scala:334)
