@@ -3422,3 +3422,6 @@ INFO: Schema "PUBLIC" is up to date. No migration necessary.
 2023.09.21 17:12:33 INFO  time: Imported build in 0.14s
 2023.09.21 17:12:43 INFO  time: indexed workspace in 10s
 2023.09.21 17:12:44 INFO  compiling root (1 scala source)
+2023.09.21 17:12:48 INFO  time: compiled root in 4.28s
+2023.09.21 17:12:49 INFO  compiling root (1 scala source)
+2023.09.21 17:12:52 INFO  time: compiled root in 2.68s
