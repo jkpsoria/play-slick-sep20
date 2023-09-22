@@ -1,4 +1,4 @@
-name := """crsestrada-homework-09192023"""
+name := """homework-09192023"""
 organization := "com.example"
 
 version := "1.0-SNAPSHOT"

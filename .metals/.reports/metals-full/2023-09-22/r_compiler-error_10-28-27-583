@@ -1,0 +1,58 @@
+scala.MatchError: implicit class <error> extends  (of class scala.reflect.internal.Trees$ClassDef)
+occurred in the presentation compiler.
+
+action parameters:
+uri: file://<WORKSPACE>/app/models/domain/Users.scala
+text:
+package models.domain
+
+import java.util.UUID
+
+case class User(id: UUID, username: String, password: String, email: String)
+
+object User {
+    implicit v
+    val tupled = (apply: (UUID, String, String, String) => User).tupled
+    def apply(username: String, password: String, email: String): User = apply(UUID.randomUUID(), username, password, email)
+}
+
+
+error stacktrace:
+scala.tools.nsc.typechecker.Unapplies.constrParamss(Unapplies.scala:90)
+	scala.tools.nsc.typechecker.Unapplies.factoryMeth(Unapplies.scala:141)
+	scala.tools.nsc.typechecker.Unapplies.factoryMeth$(Unapplies.scala:138)
+	scala.meta.internal.pc.MetalsGlobal$MetalsInteractiveAnalyzer.factoryMeth(MetalsGlobal.scala:67)
+	scala.tools.nsc.typechecker.MethodSynthesis$MethodSynth.enterImplicitWrapper(MethodSynthesis.scala:238)
+	scala.tools.nsc.typechecker.MethodSynthesis$MethodSynth.enterImplicitWrapper$(MethodSynthesis.scala:237)
+	scala.tools.nsc.typechecker.Namers$Namer.enterImplicitWrapper(Namers.scala:58)
+	scala.tools.nsc.interactive.InteractiveAnalyzer$InteractiveNamer.enterExistingSym(Global.scala:95)
+	scala.tools.nsc.interactive.InteractiveAnalyzer$InteractiveNamer.enterExistingSym$(Global.scala:81)
+	scala.tools.nsc.interactive.InteractiveAnalyzer$$anon$2.enterExistingSym(Global.scala:51)
+	scala.tools.nsc.typechecker.Namers$Namer.standardEnterSym(Namers.scala:314)
+	scala.tools.nsc.typechecker.AnalyzerPlugins.pluginsEnterSym(AnalyzerPlugins.scala:496)
+	scala.tools.nsc.typechecker.AnalyzerPlugins.pluginsEnterSym$(AnalyzerPlugins.scala:495)
+	scala.meta.internal.pc.MetalsGlobal$MetalsInteractiveAnalyzer.pluginsEnterSym(MetalsGlobal.scala:67)
+	scala.tools.nsc.typechecker.Namers$Namer.enterSym(Namers.scala:288)
+	scala.tools.nsc.typechecker.Typers$Typer.enterSym(Typers.scala:2010)
+	scala.tools.nsc.typechecker.Typers$Typer.enterSyms(Typers.scala:2005)
+	scala.tools.nsc.typechecker.Typers$Typer.typedTemplate(Typers.scala:2065)
+	scala.tools.nsc.typechecker.Typers$Typer.typedModuleDef(Typers.scala:1965)
+	scala.tools.nsc.typechecker.Typers$Typer.typed1(Typers.scala:6061)
+	scala.tools.nsc.typechecker.Typers$Typer.typed(Typers.scala:6153)
+	scala.tools.nsc.typechecker.Typers$Typer.typedStat$1(Typers.scala:6231)
+	scala.tools.nsc.typechecker.Typers$Typer.$anonfun$typedStats$8(Typers.scala:3470)
+	scala.tools.nsc.typechecker.Typers$Typer.typedStats(Typers.scala:3470)
+	scala.tools.nsc.typechecker.Typers$Typer.typedPackageDef$1(Typers.scala:5743)
+	scala.tools.nsc.typechecker.Typers$Typer.typed1(Typers.scala:6063)
+	scala.tools.nsc.typechecker.Typers$Typer.typed(Typers.scala:6153)
+	scala.tools.nsc.typechecker.Analyzer$typerFactory$TyperPhase.apply(Analyzer.scala:124)
+	scala.tools.nsc.Global$GlobalPhase.applyPhase(Global.scala:480)
+	scala.tools.nsc.interactive.Global$TyperRun.applyPhase(Global.scala:1370)
+	scala.tools.nsc.interactive.Global$TyperRun.typeCheck(Global.scala:1363)
+	scala.tools.nsc.interactive.Global.typeCheck(Global.scala:680)
+	scala.meta.internal.pc.PcCollector.<init>(PcCollector.scala:29)
+	scala.meta.internal.pc.PcSemanticTokensProvider$Collector$.<init>(PcSemanticTokensProvider.scala:18)
+	scala.meta.internal.pc.PcSemanticTokensProvider.Collector$lzycompute$1(PcSemanticTokensProvider.scala:18)
+	scala.meta.internal.pc.PcSemanticTokensProvider.Collector(PcSemanticTokensProvider.scala:18)
+	scala.meta.internal.pc.PcSemanticTokensProvider.provide(PcSemanticTokensProvider.scala:71)
+	scala.meta.internal.pc.ScalaPresentationCompiler.$anonfun$semanticTokens$1(ScalaPresentationCompiler.scala:151)

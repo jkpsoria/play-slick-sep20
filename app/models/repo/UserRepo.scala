@@ -52,19 +52,19 @@ final class UserRepo @Inject()(protected val dbConfigProvider: DatabaseConfigPro
     def getUsernamesOnly = db.run(users.map(x => x.username).result)
 
 
-    //groupby
-    val msgPerUser: DBIO[Seq[(Long, Int)]] =
-      messages.groupBy(_.senderId).
-      map { case (senderId, msgs) => senderId -> msgs.length }.
-    result
+    // //groupby
+    // val msgPerUser: DBIO[Seq[(Long, Int)]] =
+    //   messages.groupBy(_.senderId).
+    //   map { case (senderId, msgs) => senderId -> msgs.length }.
+    // result
   
 
-    //groupby with joins
-    val msgsPerUser =
-    messages.join(users).on(_.senderId === _.id).
-    groupBy { case (msg, user)   => user.name }.
-    map     { case (name, group) => name -> group.length }.
-    result
+    // //groupby with joins
+    // val msgsPerUser =
+    // messages.join(users).on(_.senderId === _.id).
+    // groupBy { case (msg, user)   => user.name }.
+    // map     { case (name, group) => name -> group.length }.
+    // result
 }
 
 

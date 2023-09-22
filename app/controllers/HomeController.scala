@@ -10,6 +10,7 @@ import models.domain.Profile
 import models.repo.UserRepo
 import models.repo.ProfileRepo
 import java.util.UUID
+import play.api.libs.json.Json
 
 @Singleton
 class HomeController @Inject()(
@@ -47,9 +48,14 @@ class HomeController @Inject()(
       profileRepo.createProfileSchema
     }.map(_ => Ok)
   }
+  // def getUsers() = Action.async{ implicit request =>
+  //   userRepo.getUsers.map(users => Ok(users.mkString("\n")))  
+  // }
+
   def getUsers() = Action.async{ implicit request =>
-    userRepo.getUsers.map(users => Ok(users.mkString("\n")))  
+    userRepo.getUsers.map(users => Ok(Json.toJson(users)))
   }
+
   def getNumberUsers() = Action.async{ implicit request =>
     userRepo.numberUsers.map(users => Ok(users.toString))  
   }
